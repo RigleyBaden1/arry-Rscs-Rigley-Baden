@@ -1,0 +1,31 @@
+.data
+A:      .word 0, 0, 0, 0  # Declare array A with 4 integers, initialized to 0
+sum:    .word 0          # Declare sum as an integer, initialized to 0
+
+.text
+.globl main
+main:
+    la t0, A             # Load address of array A into t0
+    li t1, 10            # Load immediate value 10 into t1
+    sw t1, 0(t0)         # Store 10 into A[0]
+    li t1, 11            # Load immediate value 11 into t1
+    sw t1, 4(t0)         # Store 11 into A[1]
+    li t1, 12            # Load immediate value 12 into t1
+    sw t1, 8(t0)         # Store 12 into A[2]
+    li t1, 13            # Load immediate value 13 into t1
+    sw t1, 12(t0)        # Store 13 into A[3]
+
+    # Calculate sum = A[0] + A[1] + A[2] + A[3]
+    lw t2, 0(t0)         # Load A[0] into t2
+    lw t3, 4(t0)         # Load A[1] into t3
+    add t2, t2, t3       # t2 = t2 + t3 (A[0] + A[1])
+    lw t3, 8(t0)         # Load A[2] into t3
+    add t2, t2, t3       # t2 = t2 + t3 (A[0] + A[1] + A[2])
+    lw t3, 12(t0)        # Load A[3] into t3
+    add t2, t2, t3       # t2 = t2 + t3 (A[0] + A[1] + A[2] + A[3])
+
+    la t0, sum           # Load address of sum into t0
+    sw t2, 0(t0)         # Store the result into sum
+
+    li a7, 10            # Exit the program
+    ecall
